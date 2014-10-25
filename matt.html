@@ -1,38 +1,59 @@
-<html>
-<head>
-<title>matt</title>
-</head>
-<body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>matt</title>
 
-<a href="
-javascript:{
-	ps = document.querySelectorAll('p');
-	var footnoteNumber = 1;
-	var onTwitter = location.href.indexOf('twitter.com');
-	var sentenceRegex =  /([a-z])(\.|$)((?: |\n|\r|$|\)|<).{0,3})/g;
-	var twitterLinkRegex =  /([A-Za-z]) <a href=.http:\/\/t.co/g;
-	for (var i = 0; i<ps.length; i++) {
-		var paragraph = ps[i].innerHTML;
-		function replacer(match, previousLetter, endLetter, laterLetters, offset) {
-			var footnote = '';
-			if (onTwitter == -1 && laterLetters != '<sup') {
-				var footnote = '<sup style=\'font-size: 75%; color: #00b9e7; cursor: pointer;\'>' + footnoteNumber + '</sup>';
-				footnoteNumber += 1;
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+      <div class="container">	
+      <br />
+	<p>
+	Add this to your bookmarks: 
+	<a href="
+	javascript:{
+		ps = document.querySelectorAll('p,li');
+		var footnoteNumber = 1;
+		var onTwitter = location.href.indexOf('twitter.com');
+		var sentenceRegex =  /([a-z0-9])(\.|$)((?: |\n|\r|$|\)|<).{0,3})/g;
+		var twitterLinkRegex =  /([A-Za-z0-9]) <a href=.http:\/\/t.co/g;
+		for (var i = 0; i<ps.length; i++) {
+			var paragraph = ps[i].innerHTML;
+			function replacer(match, previousLetter, endLetter, laterLetters, offset) {
+				var footnote = '';
+				if (onTwitter == -1 && laterLetters != '<sup') {
+					var footnote = '<sup style=\'font-size: 75%; color: #00b9e7; cursor: pointer;\'>' + footnoteNumber + '</sup>';
+					footnoteNumber += 1;
+				}
+				var change = previousLetter + ', come on' + endLetter + footnote + laterLetters;
+				return change;			
 			}
-			var change = previousLetter + ', come on' + endLetter + footnote + laterLetters;
-			return change;			
-		}
-		ps[i].innerHTML = ps[i].innerHTML.replace(sentenceRegex, replacer);
-		if (onTwitter) {
-			function twitterReplacer(match, previousLetter, offset) {
-				console.log(match);
-				return previousLetter + ', come on <a href=&quot;http://t.co';
+			ps[i].innerHTML = ps[i].innerHTML.replace(sentenceRegex, replacer);
+			if (onTwitter) {
+				function twitterReplacer(match, previousLetter, offset) {
+					console.log(match);
+					return previousLetter + ', come on <a href=&quot;http://t.co';
+				}
+				ps[i].innerHTML = ps[i].innerHTML.replace(twitterLinkRegex, twitterReplacer);
 			}
-			ps[i].innerHTML = ps[i].innerHTML.replace(twitterLinkRegex, twitterReplacer);
 		}
+		void(0);
 	}
- 	void(0);
-}
-">matt</a>
-</body>
+	">matt</a>.
+	</p>
+	</div>
+
+
+  </body>
 </html>
