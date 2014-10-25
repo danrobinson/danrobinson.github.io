@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>matt</title>
+</head>
+<body>
+
+<a href="
+javascript:{
+	ps = document.querySelectorAll('p');
+	var footnoteNumber = 1;
+	var onTwitter = location.href.indexOf('twitter.com');
+	var sentenceRegex =  /([a-z])(\.|$)((?: |\n|\r|$|\)|<).{0,3})/g;
+	var twitterLinkRegex =  /([A-Za-z]) <a href=.http:\/\/t.co/g;
+	for (var i = 0; i<ps.length; i++) {
+		var paragraph = ps[i].innerHTML;
+		function replacer(match, previousLetter, endLetter, laterLetters, offset) {
+			var footnote = '';
+			if (onTwitter == -1 && laterLetters != '<sup') {
+				var footnote = '<sup style=\'font-size: 75%; color: #00b9e7; cursor: pointer;\'>' + footnoteNumber + '</sup>';
+				footnoteNumber += 1;
+			}
+			var change = previousLetter + ', come on' + endLetter + footnote + laterLetters;
+			return change;			
+		}
+		ps[i].innerHTML = ps[i].innerHTML.replace(sentenceRegex, replacer);
+		if (onTwitter) {
+			function twitterReplacer(match, previousLetter, offset) {
+				console.log(match);
+				return previousLetter + ', come on <a href=&quot;http://t.co';
+			}
+			ps[i].innerHTML = ps[i].innerHTML.replace(twitterLinkRegex, twitterReplacer);
+		}
+	}
+ 	void(0);
+}
+">matt</a>
+</body>
+</html>
